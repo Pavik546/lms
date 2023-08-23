@@ -12,8 +12,9 @@ urlpatterns = [
     path('result/', include('result.urls')),
     path('search/', include('search.urls')),
     path('quiz/', include('quiz.urls')),
+    path('payments/', include('base.urls')),
 
-    path('payments/', include('payments.urls')),
+   
 
     path('accounts/api/', include('accounts.api.urls', namespace='accounts-api')),
 

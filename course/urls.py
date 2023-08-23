@@ -9,6 +9,7 @@ urlpatterns = [
     path('add/', program_add, name='add_program'),
     path('<int:pk>/edit/', program_edit, name='edit_program'),
     path('<int:pk>/delete/', program_delete, name='program_delete'),
+    #path('add/', program_add, name='add_program'),
 
     # Course urls
     path('course/<slug>/detail/', course_single, name='course_detail'),

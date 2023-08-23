@@ -68,6 +68,9 @@
                     {% if request.user.is_superuser %}
                     <th>Action</th>
                     {% endif %}
+                    {% if request.user.is_student %}
+                    <th>Payment</th>
+                    {% endif %}
                 </tr>
             </thead>
             <tbody>
@@ -77,6 +80,14 @@
                     <td><a class="a-list" href="{{ program.get_absolute_url }}">
                             {{ program.title}}</a></td>
                     <td>{{ program.summary }} </td>
+                    {% if request.user.is_student %}
+
+                    <td>
+                        <div class="#">
+                            <a class="btn btn-danger"
+                            href="{% url 'pay' %}">500 INR</a>
+                        </div>
+                        {% endif %}
                     {% if request.user.is_superuser %}
 
                     <td>
