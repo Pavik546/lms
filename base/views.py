@@ -1,6 +1,8 @@
 from django.shortcuts import render
 import razorpay
 from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponse, HttpResponseRedirect
+from django.urls import reverse
 
 
 def pay(request):
@@ -18,3 +20,6 @@ def pay(request):
 @csrf_exempt
 def success(request):
     return render(request, "base/success.html")
+
+    # Rest of your view logic
+
