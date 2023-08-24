@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load custom_filters %}
 {% block title %}{{ title }}{% endblock title %}
 
 {% block content %}
@@ -66,6 +67,9 @@
                     <th>Program Name</th>
                     <th>Summary</th>
                     {% if request.user.is_superuser %}
+                    <th>Fees</th>
+                    {% endif %}
+                    {% if request.user.is_superuser %}
                     <th>Action</th>
                     {% endif %}
                     {% if request.user.is_student %}
@@ -77,15 +81,31 @@
                 {% for program in programs %}
                 <tr>
                     <td>{{ forloop.counter }}.</td>
+                    {%if request.user.is_lecturer or request.user.is_superuser%}
                     <td><a class="a-list" href="{{ program.get_absolute_url }}">
                             {{ program.title}}</a></td>
+                            {% endif %}
+                           
+                        {%if request.user.is_student and program.pk|is_course_paid_for:payments %}
+                        <td><a class="a-list" href="{{ program.get_absolute_url }}">
+                            {{ program.title}}</a></td>
+                          {% else %}
+                          <td><a class="a-list" href="#">
+                            {{ program.title}}</a></td>
+                            {% endif %}
+
+                       
+
                     <td>{{ program.summary }} </td>
+                    {% if request.user.is_superuser %}
+                    <td>{{ program.fees}} </td>
+                    {% endif %}
                     {% if request.user.is_student %}
 
                     <td>
                         <div class="#">
                             <a class="btn btn-danger"
-                            href="{% url 'pay' %}">500 INR</a>
+                            href="{% url 'pay' pk=program.pk fee=program.fees %}">{{program.fees}} INR</a>
                         </div>
                         {% endif %}
                     {% if request.user.is_superuser %}

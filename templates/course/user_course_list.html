@@ -5,7 +5,7 @@
 {% block content %}
 
 <div id="input-nav"><a href="{% url 'home' %}" class="primary1">Home</a> <i>&rsaquo;</i> My Courses</div>
-
+,<!----
 {% if request.user.is_student %}
     <div class="title-1">{{ student.department.title }}</div>
     <div class="title-line"></div>
@@ -13,6 +13,7 @@
         <p class="program-description">{{ student.department.summary }}</p>
     {% endif %}
 {% endif %}
+-->
 
 {% if request.user.is_lecturer %}
     <div class="title-1">My Courses</div>
@@ -35,7 +36,7 @@
 
 {% if request.user.is_student %}
 <div class="table-responsive p-3 mt-3">
-    <div class="table-title"><u>Taken Courses:</u></div>
+    <div class="table-title"><u>Taken Courses:{{request.user.id}}</u></div>
     <div class="table-shadow">
         <table class="table table-light">
             <thead>
@@ -54,8 +55,10 @@
                 {% for course in taken_courses %}
                 <tr>
                     <td>{{ forloop.counter }}.</td> 
-                    <td><a href="{{ course.get_absolute_url }}">
+                    <td><a href="#">
                         {{ course.course.title }}</a></td>
+                       
+                  
                     <td>{{ course.course.code }}</td>
                     <td>{{ course.course.credit }}</td>
                     <td>{{ course.course.year }}</td>
@@ -97,8 +100,15 @@
                 {% for course in courses %}
                 <tr>
                     <td>{{ forloop.counter }}.</td> 
+                    {% if request.user.is_lecturer or request.user.is_superuser %}
                     <td><a href="{{ course.get_absolute_url }}">
                         {{ course.title }}</a></td>
+                        {% endif %}
+                        {% if request.user.is_student %}
+                        <td><a href="#">
+                            {{ course.title }}</a></td>
+                            {% endif %}
+                            
                     <td>{{ course.code }}</td>
                     <td>{{ course.credit }}</td>
                     <td>{{ course.year }}</td>

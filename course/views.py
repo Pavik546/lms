@@ -7,6 +7,9 @@ from django.core.paginator import Paginator
 from django.conf import settings
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView
+from base.models import Payment
+from django.http import HttpResponse
+from django.db.models import F
 
 from accounts.models import User, Student
 from app.models import Session, Semester
@@ -25,6 +28,7 @@ from .models import Program, Course, CourseAllocation, Upload, UploadVideo
 @login_required
 def program_view(request):
     programs = Program.objects.all()
+    paid_course_ids = Payment.objects.filter(student=request.user.id, paid=True).values_list('course', flat=True)
 
     program_filter = request.GET.get('program_filter')
     if program_filter:
@@ -33,6 +37,8 @@ def program_view(request):
     return render(request, 'course/program_list.html', {
         'title': "Programs | DjangoSMS",
         'programs': programs,
+        'payments':paid_course_ids,
+
     })
 
 
@@ -454,7 +460,7 @@ def course_drop(request):
 # ########################################################
 
 
-@login_required
+@login_required  
 def user_course_list(request):
     if request.user.is_lecturer:
         courses = Course.objects.filter(allocated_course__lecturer__pk=request.user.id)
@@ -472,5 +478,6 @@ def user_course_list(request):
             'courses': courses
         })
 
+       
     else:
         return render(request, 'course/user_course_list.html')

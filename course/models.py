@@ -44,7 +44,7 @@ class ProgramManager(models.Manager):
         qs = self.get_queryset()
         if query is not None:
             or_lookup = (Q(title__icontains=query) | 
-                         Q(summary__icontains=query)
+                         Q(summary__icontains=query)|Q(fees_icontains)
                         )
             qs = qs.filter(or_lookup).distinct() # distinct() is often necessary with Q lookups
         return qs
@@ -53,6 +53,9 @@ class ProgramManager(models.Manager):
 class Program(models.Model):
     title = models.CharField(max_length=150, unique=True)
     summary = models.TextField(null=True, blank=True)
+    fees = models.IntegerField(null=True)
+
+   
 
     objects = ProgramManager()
 

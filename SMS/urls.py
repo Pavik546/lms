@@ -3,6 +3,7 @@ from django.urls import path, include
 from django.conf.urls import handler404, handler500, handler400
 from django.conf import settings
 from django.conf.urls.static import static
+from . import views
 
 
 urlpatterns = [
@@ -12,7 +13,8 @@ urlpatterns = [
     path('result/', include('result.urls')),
     path('search/', include('search.urls')),
     path('quiz/', include('quiz.urls')),
-    path('payments/', include('base.urls')),
+    path('<int:pk>/<int:fee>/pay/', include('base.urls')),
+    path('success/<int:pk>/', views.success, name='success'),
 
    
 
