@@ -16,7 +16,7 @@ urlpatterns = [
 
     path('<slug>/quiz_add/', QuizCreateView.as_view(), name='quiz_create'),
     path('<slug>/<int:pk>/add/', QuizUpdateView.as_view(), name='quiz_update'),
-    path('<slug>/<int:pk>/delete/', quiz_delete, name='quiz_delete'),
+    path('deletequiz/<int:pk>/', quiz_delete, name='deletequiz'),
     path('mc-question/add/<slug>/<int:quiz_id>/', MCQuestionCreate.as_view(), name='mc_create'),
     # path('mc-question/add/<int:pk>/<quiz_pk>/', MCQuestionCreate.as_view(), name='mc_create'),
 ]

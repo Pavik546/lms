@@ -32,6 +32,8 @@
 
     {% if request.user.is_superuser or request.user.is_lecturer %}
     <a class="btn btn-outline-primary br-2 mb-4" href="{% url 'quiz_create' course.slug %}">&plus; Add Quiz</a>
+   
+                            
     {% endif %}
 
     <div class="row">
@@ -39,17 +41,12 @@
         <div class="col-md-4 mb-4 mx-auto text-center">
             <div class="card p-2 quiz-wrapper">
                 {% if request.user.is_superuser or request.user.is_lecturer %}
-                <div class="update-delete-wrapper">
-                    <div class="navbar">
-                        <li class="dropdown">
-                            <a class="dropdown-toggle-split" href="#" id="dropdown01" data-toggle="dropdown"><i class="fas fa-ellipsis-v text-white"></i></a>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown01">
-                                <a href="{% url 'quiz_update' slug=course.slug pk=quiz.id %}" class="update"><i class="fas fa-pencil-alt"></i> Edit</a>
-                                <a href="{% url 'quiz_delete' slug=course.slug pk=quiz.id %}" class="delete"><i class="fas fa-trash-alt"></i> Delete</a>
-                            </div>
-                        </li>
-                    </div>
-                </div>
+                <form method="post" action="{% url 'deletequiz' quiz.pk %}">
+                    {% csrf_token %}
+                    <button type="submit">Delete Quiz</button>
+                </form>
+                
+                
                 {% endif %}
                 <div class="row text-success mb-4">
                     <em class="col-6 text-left">{{ quiz.category|title }} Quiz</em>

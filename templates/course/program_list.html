@@ -89,7 +89,7 @@
                         {%if request.user.is_student and program.pk|is_course_paid_for:payments %}
                         <td><a class="a-list" href="{{ program.get_absolute_url }}">
                             {{ program.title}}</a></td>
-                          {% else %}
+                          {% elif request.user.is_student%}
                           <td><a class="a-list" href="#">
                             {{ program.title}}</a></td>
                             {% endif %}

@@ -65,7 +65,7 @@ class NewsAndEvents(models.Model):
 
 class Session(models.Model):
     session = models.CharField(max_length=200, unique=True)
-    is_current_session = models.BooleanField(default=False, blank=True, null=True)
+    is_current_session = models.BooleanField(default=False)
     next_session_begins = models.DateField(blank=True, null=True)
 
     def __str__(self):
@@ -74,7 +74,7 @@ class Session(models.Model):
 
 class Semester(models.Model):
     semester = models.CharField(max_length=10, choices=SEMESTER, blank=True)
-    is_current_semester = models.BooleanField(default=False, blank=True, null=True)
+    is_current_semester = models.BooleanField(default=False)
     session = models.ForeignKey(Session, on_delete=models.CASCADE, blank=True, null=True)
     next_semester_begins = models.DateField(null=True, blank=True)
 
