@@ -400,45 +400,44 @@ def course_registration(request):
         t = ()
         for i in taken_courses:
             t += (i.course.pk,)
-        current_semester = Semester.objects.get(is_current_semester=True)
+        try:
+            current_semester = Semester.objects.get(is_current_semester=True)
+            courses = Course.objects.filter(program__pk=student.department.id, level=student.level, semester=current_semester).exclude(id__in=t).order_by('year')
+            all_courses = Course.objects.filter(level=student.level, program__pk=student.department.id)
+            no_course_is_registered = False  # Check if no course is registered
+            all_courses_are_registered = False
+            registered_courses = Course.objects.filter(level=student.level).filter(id__in=t)
+            if registered_courses.count() == 0:
+                no_course_is_registered = True
+            if registered_courses.count() == all_courses.count():
+                all_courses_are_registered = True
+            total_first_semester_credit = 0
+            total_sec_semester_credit = 0
+            total_registered_credit = 0
+            for i in courses:
+                if i.semester == "First":
+                    total_first_semester_credit += int(i.credit)
+                if i.semester == "Second":
+                    total_sec_semester_credit += int(i.credit)
+            for i in registered_courses:
+                total_registered_credit += int(i.credit)
+                context = {
+                    "is_calender_on": True,
+                    "all_courses_are_registered": all_courses_are_registered,
+                    "no_course_is_registered": no_course_is_registered,
+                    "current_semester": current_semester,
+                    "courses": courses,
+                    "total_first_semester_credit": total_first_semester_credit,
+                    "total_sec_semester_credit": total_sec_semester_credit,
+                    "registered_courses": registered_courses,
+                    "total_registered_credit": total_registered_credit,
+                    "student": student,
+                    }
+            return render(request, 'course/course_registration.html', context)
+        except Semester.DoesNotExist:
+            error_message = "There is no current semester sorry."
+            return render(request, 'course/errortemplate.html', {'error_message': error_message})
 
-        courses = Course.objects.filter(program__pk=student.department.id, level=student.level, semester=current_semester
-        ).exclude(id__in=t).order_by('year')
-        all_courses = Course.objects.filter(level=student.level, program__pk=student.department.id)
-
-        no_course_is_registered = False  # Check if no course is registered
-        all_courses_are_registered = False
-
-        registered_courses = Course.objects.filter(level=student.level).filter(id__in=t)
-        if registered_courses.count() == 0:  # Check if number of registered courses is 0
-            no_course_is_registered = True
-
-        if registered_courses.count() == all_courses.count():
-            all_courses_are_registered = True
-
-        total_first_semester_credit = 0
-        total_sec_semester_credit = 0
-        total_registered_credit = 0
-        for i in courses:
-            if i.semester == "First":
-                total_first_semester_credit += int(i.credit)
-            if i.semester == "Second":
-                total_sec_semester_credit += int(i.credit)
-        for i in registered_courses:
-            total_registered_credit += int(i.credit)
-        context = {
-            "is_calender_on": True,
-            "all_courses_are_registered": all_courses_are_registered,
-            "no_course_is_registered": no_course_is_registered,
-            "current_semester": current_semester,
-            "courses": courses,
-            "total_first_semester_credit": total_first_semester_credit,
-            "total_sec_semester_credit": total_sec_semester_credit,
-            "registered_courses": registered_courses,
-            "total_registered_credit": total_registered_credit,
-            "student": student,
-        }
-        return render(request, 'course/course_registration.html', context)
 
 
 @login_required

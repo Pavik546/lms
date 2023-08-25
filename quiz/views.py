@@ -80,8 +80,8 @@ def quiz_delete(request, pk):
     
     if request.method == 'POST':
         quiz.delete()
-        messages.success(request, f'successfuly deleted.')
-        return HttpResponse("Deleted sccessfully,Please refresh a page")
+        return render(request, 'quiz/errortemplate.html')
+        #return HttpResponse("Deleted sccessfully,Please refresh a page")
    
 
 @method_decorator([login_required, lecturer_required], name='dispatch')
