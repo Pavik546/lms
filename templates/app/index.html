@@ -7,11 +7,16 @@
 <div class="container">
     <div id="input-nav" class="p-2">Home</div>
 
-    {% if request.user.is_superuser %}
+    {% if request.user.is_superuser or request.user.is_lecturer %}
     <div class="manage-wrap">
-        <a class="btn btn-primary" href="{% url 'add_item' %}"><i class="fas fa-plus"></i>Add New Post</a>
+        <a class="btn btn-primary" href="{% url 'add_item' %}"><i class="fas fa-plus"></i>Create Schedules</a>
     </div>
     {% endif %}
+    <!----
+    <div class="manage-wrap">
+        <a class="btn btn-primary" href="http://localhost:3000"><i class="fas fa-plus"></i>Join</a>
+    </div>
+    --->
 
     {% if messages %}
     {% for message in messages %}
@@ -40,14 +45,14 @@
         }
     </style>
 
-    <div class="title-1">News & Events</div>
-
+    <div class="title-1">Schedules</div>
+   
     <ul class="col-md-2 ml-auto d-flex">
         <li class="mr-3">
-            <span class="color-indicator bg-primary"></span> News
+            <span class="color-indicator bg-primary"></span> 
         </li>
         <li>
-            <span class="color-indicator bg-purple"></span> Events
+            <span class="color-indicator bg-purple"></span> 
         </li>
     </ul>
     <style>
@@ -62,49 +67,124 @@
             vertical-align: middle;
         }
     </style>
-    {% if items %}
-    <div class="row">
-        {% for item in items %}
-        <div class="col-md-4 mb-4">
-            <div class="bg-white border">
-                <div class="card-header-ne {% if item.posted_as == 'News' %}news{% else %}events{% endif %} p-2">
-                    <span class="p-0">
-                        {{ item.title|title }}
-                    </span>
-                    {% if request.user.is_superuser %}
-                    <div class="dropdown">
-                        <button class="btn btn-sm" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false">
-                            <i class="fas fa-ellipsis-v text-white"></i>
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="{% url 'edit_post' pk=item.id %}"><i
-                                    class="fas fa-pencil-alt"></i> Edit</a>
-                            <a class="dropdown-item" href="{% url 'delete_post' pk=item.id %}"><i
-                                    class="fas fa-trash-alt"></i> Delete</a>
-                        </div>
+{% if items %}
+<div class="row">
+{% for item in items %}
+    {% if request.user.username == item.host %}
+    <div class="col-md-4 mb-4">
+        <div class="bg-white border">
+            <div class="card-header-ne {% if item.posted_as == 'News' %}news{% else %}events{% endif %} p-2">
+                <span class="p-0">
+                    {{ item.host}}
+                </span>
+                <div class="dropdown">
+                    <button class="btn btn-sm" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                        <i class="fas fa-ellipsis-v text-white"></i>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="{% url 'edit_post' pk=item.id %}"><i
+                                class="fas fa-pencil-alt"></i> Edit</a>
+                        <a class="dropdown-item" href="{% url 'delete_post' pk=item.id %}"><i
+                                class="fas fa-trash-alt"></i> Delete</a>
                     </div>
-                    {% endif %}
                 </div>
-
-                <div class="p-2">{{ item.summary }}</div>
-
-                <div class="date-wrapper">
-                    <i class="fa fa-calendar mr-2"></i>
-                    {{ item.updated_date|timesince }} ago
-                </div>
-
+            
             </div>
+
+            <div class="p-2"><b>Detail:</b>{{ item.summary }}</div>
+            <div class="p-2"><b>Join Team:</b>{{ item.team_name }}</div>
+
+            <div class="date-wrapper">
+                <a href="http://localhost:3000"> <i class="fa fa-calendar mr-2"></i>{{item.meet_time}}</a>
+            </div>
+
         </div>
-        {% endfor %}
     </div>
 
-    {% else %}
-    <p>
-        <i class="far fa-frown fa-2x"></i>So empty.
-    </p>
+</div>
+        
+    {% endif %}
+
+    {% if request.user.is_superuser %}
+    <div class="col-md-4 mb-4">
+        <div class="bg-white border">
+            <div class="card-header-ne {% if item.posted_as == 'News' %}news{% else %}events{% endif %} p-2">
+                <span class="p-0">
+                    {{ item.host}}
+                </span>
+            
+                <div class="dropdown">
+                    <button class="btn btn-sm" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                        <i class="fas fa-ellipsis-v text-white"></i>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="{% url 'edit_post' pk=item.id %}"><i
+                                class="fas fa-pencil-alt"></i> Edit</a>
+                        <a class="dropdown-item" href="{% url 'delete_post' pk=item.id %}"><i
+                                class="fas fa-trash-alt"></i> Delete</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-2"><b>Detail:</b>{{ item.summary }}</div>
+            <div class="p-2"><b>Join Team:</b>{{ item.team_name }}</div>
+
+            <div class="date-wrapper">
+                <a href="http://localhost:3000"> <i class="fa fa-calendar mr-2"></i>{{item.meet_time}}</a>
+            </div>
+
+        </div>
+    </div>
+    
+</div>
 
     {% endif %}
+
+    {% if request.user.username in item.student_list %}
+    <div class="col-md-4 mb-4">
+        <div class="bg-white border">
+            <div class="card-header-ne {% if item.posted_as == 'News' %}news{% else %}events{% endif %} p-2">
+                <span class="p-0">
+                    {{ item.host}}
+                </span>
+            
+                <div class="dropdown">
+                    <button class="btn btn-sm" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                        <i class="fas fa-ellipsis-v text-white"></i>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                      
+                        <a class="dropdown-item" href="{% url 'delete_post' pk=item.id %}"><i
+                                class="fas fa-trash-alt"></i> Delete</a>
+                    </div>
+                </div>
+         
+            </div>
+
+            <div class="p-2"><b>Detail:</b>{{ item.summary }}</div>
+            <div class="p-2"><b>Join Team:</b>{{ item.team_name }}</div>
+
+            <div class="date-wrapper">
+                <a href="http://localhost:3000"> <i class="fa fa-calendar mr-2"></i>{{item.meet_time}}</a>
+            </div>
+        </div>
+    </div>
+  
+</div>
+    {% endif %}
+{% endfor %}
+{% else %}
+<p>
+    <i class="far fa-frown fa-2x"></i>So empty.
+</p>
+{% endif %}
+
+
+
+
 
 </div>
 

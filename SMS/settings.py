@@ -43,7 +43,9 @@ DJANGO_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "course.templatetags"
+    "django.contrib.postgres",
+    "course.templatetags",
+
 ]
 
 # Thired party apps

@@ -13,23 +13,27 @@ from .models import *
 # ########################################################
 @login_required
 def home_view(request):
-    items = NewsAndEvents.objects.all().order_by('-updated_date')
+    items = NewsAndEvents.objects.all()
+   
+
     context = {
-        'title': "News & Events | DjangoSMS",
+        'title': "Schedules | DjangoSMS",
         'items': items,
+       
     }
     return render(request, 'app/index.html', context)
+
 
 
 @login_required
 def post_add(request):
     if request.method == 'POST':
         form = NewsAndEventsForm(request.POST)
-        title = request.POST.get('title')
+        title= request.POST.get('host')
         if form.is_valid():
             form.save()
 
-            messages.success(request, (title + ' has been uploaded.'))
+            messages.success(request, ('Schedule has been uploaded.'))
             return redirect('home')
         else:
             messages.error(request, 'Please correct the error(s) below.')
@@ -47,11 +51,11 @@ def edit_post(request, pk):
     instance = get_object_or_404(NewsAndEvents, pk=pk)
     if request.method == 'POST':
         form = NewsAndEventsForm(request.POST, instance=instance)
-        title = request.POST.get('title')
+        title = request.POST.get('host')
         if form.is_valid():
             form.save()
 
-            messages.success(request, (title + ' has been updated.'))
+            messages.success(request, ('Schedule has been updated.'))
             return redirect('home')
         else:
             messages.error(request, 'Please correct the error(s) below.')
@@ -67,9 +71,9 @@ def edit_post(request, pk):
 @lecturer_required
 def delete_post(request, pk):
     post = get_object_or_404(NewsAndEvents, pk=pk)
-    title = post.title
+    title = post.host
     post.delete()
-    messages.success(request, (title + ' has been deleted.'))
+    messages.success(request, ('Schedule has been deleted.'))
     return redirect('home')
 
 # ########################################################

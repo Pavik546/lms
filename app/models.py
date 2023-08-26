@@ -1,16 +1,9 @@
 from django.db import models
 from django.urls import reverse
 from django.core.validators import FileExtensionValidator
+from django.contrib.postgres.fields import ArrayField
 from django.contrib.auth.models import AbstractUser
 from django.db.models import Q
-
-NEWS = "News"
-EVENTS = "Event"
-
-POST = (
-    (NEWS, "News"),
-    (EVENTS, "Event"),
-)
 
 FIRST = "First"
 SECOND = "Second"
@@ -26,9 +19,11 @@ SEMESTER = (
 class NewsAndEventsQuerySet(models.query.QuerySet):
 
     def search(self, query):
-        lookups = (Q(title__icontains=query) | 
-                  Q(summary__icontains=query) |
-                  Q(posted_as__icontains=query)
+        lookups = (Q(host__icontains=query) | 
+                  Q(student_list__icontains=query) |
+                  Q(meet_time__icontains=query)|
+                  Q(team_name__icontains=query) |
+                  Q(summary__icontains=query) 
                   )
         return self.filter(lookups).distinct()
 
@@ -51,16 +46,17 @@ class NewsAndEventsManager(models.Manager):
 
 
 class NewsAndEvents(models.Model):
-    title = models.CharField(max_length=200, null=True)
+    host = models.CharField(max_length=200, null=True)
+    student_list = ArrayField(models.CharField(max_length=100), null=True)
+    meet_time = models.CharField(max_length=200, null=True)
+    team_name=models.CharField(max_length=200, null=True)
     summary = models.TextField(max_length=200, blank=True, null=True)
-    posted_as = models.CharField(choices=POST, max_length=10)
-    updated_date = models.DateTimeField(auto_now=True, auto_now_add=False, null=True)
-    upload_time = models.DateTimeField(auto_now=False, auto_now_add=True, null=True)
+ 
 
     objects = NewsAndEventsManager()
 
     def __str__(self):
-        return self.title
+        return self.host
 
 
 class Session(models.Model):

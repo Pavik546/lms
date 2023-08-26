@@ -36,16 +36,16 @@
 		{% url 'quiz_progress' as qpr %} {% url 'quiz_marking' as qce %} {% url 'user_course_list' as ucl %}
 		{% url 'admin_panel' as admin_p %}
 		<ul>
-			{% if request.user.is_superuser %}
+		
 			<li class="{% if request.path == dash %}active{% endif %}">
 				<a href="{% url 'dashboard' %}"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
 			</li>
-			{% endif %}
-			<li class="{% if request.path == hom %}active{% endif %}">
-				<a href="{% url 'home' %}"><i class="fas fa-home"></i>Home</a>
-			</li>
+		
 			<li class="{% if request.path == prof %}active{% endif %}">
 				<a href="{% url 'profile' %}"><i class="fas fa-user"></i>Profile</a>
+			</li>
+			<li class="{% if request.path == hom %}active{% endif %}">
+				<a href="{% url 'home' %}"><i class="fas fa-calendar-alt"></i>Live classes</a>
 			</li>
 			
 
@@ -71,11 +71,12 @@
 			<li class="{% if request.path == pro %}active{% endif %}">
 				<a href="{% url 'programs' %}"><i class="fas fa-book-open"></i>Programs & Courses</a>
 			</li>
+			
+
+			{% if request.user.is_superuser or request.user.is_lecturer %}
 			<li class="{% if request.path == meet %}active{% endif %}">
 				<a href="http://localhost:3000"><i class="fa-solid fa-video"></i>Meeting</a>
 			</li>
-
-			{% if request.user.is_superuser or request.user.is_lecturer %}
 			<li class="{% if request.path == qce %}active{% endif %}">
 				<a href="{% url 'quiz_marking' %}"><i class="fas fa-check-double"></i>Complete Exams</a>
 			</li>
@@ -98,7 +99,7 @@
 
 			{% if request.user.is_lecturer %}
 			<li class="{% if request.path == ascore %}active{% endif %}">
-				<a href="{% url 'add_score' %}"><i class="fas fa-table"></i>Manage Score</a>
+				<a href="{% url 'add_score' %}"><i class="fas fa-table"></i>Get Result Sheet</a>
 			</li>
 			{% endif %}
 
@@ -106,6 +107,7 @@
 			<li class="{% if request.path == qpr %}active{% endif %}">
 				<a href="{% url 'quiz_progress' %}"><i class="fas fa-record-vinyl"></i>Quiz Progress Rec</a>
 			</li>
+
 			<li class="{% if request.path == vr %}active{% endif %}">
 				<a href="{% url 'grade_results' %}"><i class="fab fa-page4"></i>Grade Results</a>
 			</li>
@@ -113,7 +115,7 @@
 				<a href="{% url 'ass_results' %}"><i class="fa fa-spell-check"></i>Assesment Results</a>
 			</li>
 			<li class="{% if request.path == cr %}active{% endif %}">
-				<a href="{% url 'course_registration' %}"><i class="fas fa-plus"></i>Add & Drop Course</a>
+				<a href="{% url 'course_registration' %}"><i class="fas fa-plus"></i>Course Registration</a>
 			</li>
 			{% endif %}
 			<br />

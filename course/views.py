@@ -414,6 +414,7 @@ def course_registration(request):
             total_first_semester_credit = 0
             total_sec_semester_credit = 0
             total_registered_credit = 0
+            context={}
             for i in courses:
                 if i.semester == "First":
                     total_first_semester_credit += int(i.credit)
@@ -421,7 +422,7 @@ def course_registration(request):
                     total_sec_semester_credit += int(i.credit)
             for i in registered_courses:
                 total_registered_credit += int(i.credit)
-                context = {
+            context ={
                     "is_calender_on": True,
                     "all_courses_are_registered": all_courses_are_registered,
                     "no_course_is_registered": no_course_is_registered,
@@ -432,7 +433,7 @@ def course_registration(request):
                     "registered_courses": registered_courses,
                     "total_registered_credit": total_registered_credit,
                     "student": student,
-                    }
+                }
             return render(request, 'course/course_registration.html', context)
         except Semester.DoesNotExist:
             error_message = "There is no current semester sorry."
