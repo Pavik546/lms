@@ -55,7 +55,7 @@
                 {% for course in taken_courses %}
                 <tr>
                     <td>{{ forloop.counter }}.</td> 
-                    <td><a href="#">
+                    <td><a href="{{ course.get_absolute_url }}">
                         {{ course.course.title }}</a></td>
                        
                   

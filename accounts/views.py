@@ -7,6 +7,9 @@ from django.contrib.auth import update_session_auth_hash
 from django.views.generic import CreateView, ListView
 from django.core.paginator import Paginator
 from django.db.models import Q
+
+
+
 from django.utils.decorators import method_decorator
 from django.contrib.auth.forms import (
     UserCreationForm,
@@ -18,7 +21,7 @@ from .decorators import lecturer_required, student_required, admin_required
 from course.models import Course
 from result.models import TakenCourse
 from app.models import Session, Semester
-from .forms import StaffAddForm, StudentAddForm, ProfileUpdateForm, ParentAddForm
+from .forms import StaffAddForm, StudentAddForm, ProfileUpdateForm, ParentAddForm,StudentUpdateForm
 from .models import User, Student, Parent
 
 
@@ -98,7 +101,6 @@ def profile(request):
 
 
 @login_required
-@admin_required
 def profile_single(request, id):
     """Show profile of any selected user"""
     if request.user.id == id:
@@ -326,30 +328,72 @@ def student_add_view(request):
 
 
 @login_required
-@admin_required
-def edit_student(request, pk):
-    # instance = User.objects.get(pk=pk)
-    instance = get_object_or_404(User, is_student=True, pk=pk)
+def editstudent(request, pk):
+    instance = get_object_or_404(User, pk=pk)
+    instance1 = get_object_or_404(Student, student=instance)
+    
     if request.method == "POST":
         form = ProfileUpdateForm(request.POST, request.FILES, instance=instance)
-        full_name = instance.get_full_name
-        if form.is_valid():
+        form1 = StudentUpdateForm(request.POST, request.FILES, instance=instance1)
+        
+        if form.is_valid() and form1.is_valid():  # Use "and" instead of "or"
             form.save()
+            form1.save()
 
-            messages.success(request, ("Student " + full_name + " has been updated."))
+          
+            messages.success(request, f"Student  has been updated.")
             return redirect("student_list")
         else:
             messages.error(request, "Please correct the error below.")
     else:
         form = ProfileUpdateForm(instance=instance)
+        form1 = StudentUpdateForm(instance=instance1)  # Define form1 for GET requests
+    
     return render(
         request,
         "accounts/edit_student.html",
         {
             "title": "Edit-profile | DjangoSMS",
             "form": form,
+            "form1": form1
         },
     )
+@login_required
+def edit_student(request, pk):
+    instance = get_object_or_404(User, pk=pk)
+    instance1 = get_object_or_404(Student, student=instance)
+    
+    if request.method == "POST":
+        form = ProfileUpdateForm(request.POST, request.FILES, instance=instance)
+        form1 = StudentUpdateForm(request.POST, request.FILES, instance=instance1)
+        
+        if form.is_valid() and form1.is_valid():  # Use "and" instead of "or"
+            form.save()
+            form1.save()
+
+          
+            messages.success(request, f"Student  has been updated.")
+            return redirect("profile")
+       
+            
+        
+        else:
+            messages.error(request, "Please correct the error below.")
+    else:
+        form = ProfileUpdateForm(instance=instance)
+        form1 = StudentUpdateForm(instance=instance1)  # Define form1 for GET requests
+    
+    return render(
+        request,
+        "accounts/edit_student.html",
+        {
+            "title": "Edit-profile | DjangoSMS",
+            "form": form,
+            "form1": form1
+        },
+    )
+
+
 
 
 @method_decorator([login_required, admin_required], name="dispatch")

@@ -4,12 +4,13 @@
 {% load static %}
 
 {% block content %}<br>
-
+{% if request.user.is_superuser %}
 <div id="input-nav"><a href="{% url 'home' %}" class="primary1">Home</a> <i>&rsaquo;</i> 
     <a href="{% url 'student_list' %}" class="primary1">Students </a><i>&rsaquo;</i> Account setting
 </div>
 <p class="title-1"><i class="fas fa-cogs"></i>Student Update Form</p>
 <div class="title-line"></div><br>
+{% endif %}
 
 {% if messages %}
     {% for message in messages %}
@@ -60,6 +61,14 @@
             <div class="card">
             <p class="form-title">Others</p>
             <div class="p-3">
+                <div class="form-group">
+                    <b>{{ form1.department.label }}</b>{{ form1.department }}
+                    <span class="danger">{{ form1.department.errors }}</span>
+                </div>
+                <div class="form-group">
+                    <b>{{ form1.level.label }}</b>{{ form1.level }}
+                    <span class="danger">{{ form1.level.errors }}</span>
+                </div>
                 <div class="form-group">
                     <b>Profile Picture</b><br>{{ form.picture }}
                     <span class="danger">{{ form.picture.errors }}</span>

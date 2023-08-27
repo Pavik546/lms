@@ -104,9 +104,9 @@
 
                     <td>
                         <div class="#">
-                            <a class="btn btn-danger"
-                            href="{% url 'pay' pk=program.pk fee=program.fees %}">{{program.fees}} INR</a>
+                            <a class="btn btn-primary" href="{% url 'pay' pk=program.pk fee=program.fees %}">{{program.fees}} INR</a>
                         </div>
+                     </td>
                         {% endif %}
                     {% if request.user.is_superuser %}
 

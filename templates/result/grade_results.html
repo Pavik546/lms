@@ -49,7 +49,7 @@
     <tbody>
       <tr class="{% if forloop.counter|divisibleby:2 %}bg-gray{% endif %}">
         <th>{{ forloop.counter }}</th>
-        <td><a href="#">{{ course.course.title }}</a></td>
+        <td><a href="{{ course.get_absolute_url }}">{{ course.course.title }}</a></td>
         <td>{{ course.course.code }}</td>
         <td>{{ course.course.credit }}</td>
 
@@ -63,34 +63,13 @@
         {% else %}
           <td></td>
         {% endif %}
-
+       
       </tr>
     </tbody>
     {% endif %}
     {% endfor %}
 
-    {% for result in results %}
-    {% if result.semester == "First" %}
-    <tr style="background: #f3f2f2;">
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th>Total first semester credit: {{ total_first_semester_credit }}</th>
-    </tr>
-    <tr class="bg-orange text-white">
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th>First Semester GPA: {{ result.gpa }}</th>
-    </tr>
-    {% endif %}
-    {% endfor %}
+   <p>First semester credit:{{total_first_semester_credit}}</p>
 
   </table>
 </div>
@@ -114,7 +93,7 @@
     <tbody>
       <tr>
         <th>{{ forloop.counter }}</th>
-        <td><a href="#">{{ course.course.title }}</a></td>
+        <td><a href="{{ course.get_absolute_url }}">{{ course.course.title }}</a></td>
         <td>{{ course.course.code }}</td>
         <td>{{ course.course.credit }}</td>
         
@@ -133,66 +112,11 @@
     </tbody>
     {% endif %}
     {% endfor %}
-    
-    {% for result in results %}
-    {% if result.semester == "Second" %}
-    <tr style="background: #f3f2f2;">
-      <th></th>
-      <th>Total second semester credit: {{ total_sec_semester_credit }}</th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th>Total Credit: {{ total_first_and_second_semester_credit }}</th>
-    </tr>
-    <tr style="background: #f3f2f2;">
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th>Second Semester GPA: {{ result.gpa }}</th>
-    </tr>
-    <tr style="background: #fd7e14; color: #fff;">
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th>Previous CGPA: {{ previousCGPA }}</th>
-    </tr>
-    {% endif %}
-    {% endfor %}
+   <p>Second Semester Credit:{{total_sec_semester_credit}}</p>
 
   </table>
 </div>
 
-<br>
-<tbody>
-  {% for result in results %}
-  {% if result.semester == "First" %}
-  <tr>
-    <th></th>
-    <th></th>
-    <th><label>First Semester GPA:</label> {{ result.gpa }}</th>
-  </tr>
-  <br>
-  {% elif result.semester == "Second" %}
-    <tr>
-    <th></th>
-    <th></th>
-    <th><label>Second Semester GPA:</label> {{ result.gpa }}</th>
-  </tr>
-  <br>
-  {% endif %}
-  {% endfor %}
-  <tr>
-    <th></th>
-    <th></th>
-    <th><label>Previous CGPA:</label> {{ previousCGPA }}</th>
-  </tr>
-</tbody>
-<br>
+<b>Total credits:{{total_first_and_second_semester_credit}}</b>
+
 {% endblock %}

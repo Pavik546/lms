@@ -20,7 +20,7 @@ class NewsAndEventsQuerySet(models.query.QuerySet):
 
     def search(self, query):
         lookups = (Q(host__icontains=query) | 
-                  Q(student_list__icontains=query) |
+                  Q(participants__icontains=query) |
                   Q(meet_time__icontains=query)|
                   Q(team_name__icontains=query) |
                   Q(summary__icontains=query) 
@@ -47,7 +47,7 @@ class NewsAndEventsManager(models.Manager):
 
 class NewsAndEvents(models.Model):
     host = models.CharField(max_length=200, null=True)
-    student_list = ArrayField(models.CharField(max_length=100), null=True)
+    participants= ArrayField(models.CharField(max_length=100), null=True)
     meet_time = models.CharField(max_length=200, null=True)
     team_name=models.CharField(max_length=200, null=True)
     summary = models.TextField(max_length=200, blank=True, null=True)

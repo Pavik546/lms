@@ -61,7 +61,7 @@
                                 <th>Cr.Hr(s)</th>
                                 <th>Year</th>
                                 <th>Classification</th>
-                                <th>Elective Group</th>
+                
                             </tr>
                         </thead>
                         <tbody>
@@ -71,7 +71,7 @@
                                 <th scope="row">
                                     <input name="{{ course.pk }}" value="{{ course.courseUnit }}" type="checkbox">
                                 </th>
-                                <td>{{ course.code }}</td>
+                                <td>{{ course.code }}{{course.program__pk}}</td>
                                 <td>{{ course.title }}</td>
                                 <td>{{ course.credit }}</td>
                                 <td>{{ course.year }}</td>
@@ -80,7 +80,7 @@
                                 {% else %}
                                 <td>Core</td>
                                 {% endif %}
-                                <th>-</th>
+                               
                             </tr>
                             {% endif %}
                             {% empty %}
@@ -124,7 +124,7 @@
                                 <th>Cr.Hr(s)</th>
                                 <th>Year</th>
                                 <th>Classification</th>
-                                <th>Elective Group</th>
+                
                             </tr>
                         </thead>
                         <tbody>
@@ -134,7 +134,7 @@
                                 <th scope="row">
                                     <input name="{{ course.pk }}" value="{{ course.courseUnit }}" type="checkbox">
                                 </th>
-                                <td>{{ course.code }}</td>
+                                <td>{{ course.code }}{{course.program__pk}}</td>
                                 <td>{{ course.title }}</td>
                                 <td>{{ course.credit }}</td>
                                 <td>{{ course.year }}</td>
@@ -143,7 +143,7 @@
                                 {% else %}
                                 <td>Core</td>
                                 {% endif %}
-                                <th>-</th>
+                               
                             </tr>
                             {% endif %}
                             {% empty %}
@@ -167,18 +167,7 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td><b>Second semester credit(s):</b> {{ total_sec_semester_credit }} </td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <th scope="row"></th>
-                                <td><b>Registerd course credit(s): <a id="units">{{ total_registered_credit }}</a></b>
-                                </td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td><b>Total credit(s):</b> {{ total_sec_semester_credit|add:total_first_semester_credit
-                                    }} </td>
+                                <td><b>Second semester Credit(s):</b> {{ total_sec_semester_credit }} </td>
                                 <td></td>
                             </tr>
                         </tbody>
@@ -232,7 +221,7 @@
                                 <th>Cr.Hr(s)</th>
                                 <th>Year</th>
                                 <th>Classification</th>
-                                <th>Elective Group</th>
+                               
                             </tr>
                         </thead>
                         <tbody>
@@ -250,7 +239,7 @@
                                 {% else %}
                                 <td>Core</td>
                                 {% endif %}
-                                <th>-</th>
+                                
                             </tr>
                             {% empty %}
                             <tr>

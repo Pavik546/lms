@@ -74,14 +74,13 @@ class QuizUpdateView(UpdateView):
 
 @login_required
 @lecturer_required
+def quiz_delete(request, slug, pk):
+    quiz = Quiz.objects.get(pk=pk)
+    course = Course.objects.get(slug=slug)
+    quiz.delete()
+    messages.success(request, f'successfuly deleted.')
+    return redirect('quiz_index', quiz.course.slug)
 
-def quiz_delete(request, pk):
-    quiz = get_object_or_404(Quiz, pk=pk)
-    
-    if request.method == 'POST':
-        quiz.delete()
-        return render(request, 'quiz/errortemplate.html')
-        #return HttpResponse("Deleted sccessfully,Please refresh a page")
    
 
 @method_decorator([login_required, lecturer_required], name='dispatch')

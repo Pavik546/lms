@@ -72,7 +72,7 @@
                     <td>{{ forloop.counter }}.</td>
                     <td><a href="{{ course.get_absolute_url }}">
                             {{ course.title }}</a></td>
-                    <td>{{ course.code }}</td>
+                    <td>{{ course.code }}{{course.program.pk}}</td>
                     <td>{{ course.credit }}</td>
                     <td>{{ course.level }}</td>
                     <td>{{ course.year }}</td>

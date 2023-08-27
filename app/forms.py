@@ -10,12 +10,12 @@ from .models import NewsAndEvents, Session, Semester, SEMESTER
 class NewsAndEventsForm(forms.ModelForm):
     class Meta:
         model = NewsAndEvents
-        fields = ('host', 'student_list', 'meet_time','team_name','summary')
+        fields = ('host', 'participants', 'meet_time','team_name','summary')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['host'].widget.attrs.update({'class': 'form-control'})
-        self.fields['student_list'].widget.attrs.update({'class': 'form-control'})
+        self.fields['participants'].widget.attrs.update({'class': 'form-control'})
         self.fields['meet_time'].widget.attrs.update({'class': 'form-control'})
         self.fields['team_name'].widget.attrs.update({'class': 'form-control'})
         self.fields['summary'].widget.attrs.update({'class': 'form-control'})

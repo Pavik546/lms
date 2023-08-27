@@ -289,6 +289,5 @@ def semester_delete_view(request, pk):
 #     return response
 
 @login_required
-@admin_required
 def dashboard_view(request):
     return render(request, 'app/dashboard.html')

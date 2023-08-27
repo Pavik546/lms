@@ -7,7 +7,7 @@ from .views import (
         profile, profile_single, admin_panel, 
         profile_update, change_password, 
         LecturerListView, StudentListView, 
-        staff_add_view, edit_staff, 
+        staff_add_view, edit_staff, editstudent,
         delete_staff, student_add_view, 
         edit_student, delete_student, ParentAdd, validate_username, register
     )
@@ -31,7 +31,9 @@ urlpatterns = [
 
     path('students/', StudentListView.as_view(), name='student_list'),
     path('student/add/', student_add_view, name='add_student'),
-    path('student/<int:pk>/edit/', edit_student, name='student_edit'),
+    
+    path('<int:pk>/edit/', edit_student, name='studentedit1'),
+    path('students/<int:pk>/edit/', editstudent, name='student_edit'),
     path('students/<int:pk>/delete/', delete_student, name='student_delete'),
 
     path('parents/add/', ParentAdd.as_view(), name='add_parent'),

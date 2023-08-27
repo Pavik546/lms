@@ -1,5 +1,7 @@
 from django.urls import path
 from .views import *
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
 
@@ -16,7 +18,10 @@ urlpatterns = [
 
     path('<slug>/quiz_add/', QuizCreateView.as_view(), name='quiz_create'),
     path('<slug>/<int:pk>/add/', QuizUpdateView.as_view(), name='quiz_update'),
-    path('deletequiz/<int:pk>/', quiz_delete, name='deletequiz'),
+    path('deletequiz/<int:pk>/<slug>', quiz_delete, name='deletequiz'),
     path('mc-question/add/<slug>/<int:quiz_id>/', MCQuestionCreate.as_view(), name='mc_create'),
     # path('mc-question/add/<int:pk>/<quiz_pk>/', MCQuestionCreate.as_view(), name='mc_create'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

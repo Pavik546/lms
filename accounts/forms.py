@@ -196,9 +196,33 @@ class ProfileUpdateForm(UserChangeForm):
         widget=forms.TextInput(attrs={'type': 'text', 'class': 'form-control', }),
         label="Address / city", )
 
+
     class Meta:
         model = User
-        fields = ['email', 'phone', 'address', 'picture', 'first_name', 'last_name']
+        fields = ['email', 'phone', 'address', 'picture', 'first_name', 'last_name',]
+
+class StudentUpdateForm(UserChangeForm):
+
+    level = forms.CharField(
+        widget=forms.Select(
+            choices=LEVEL,
+            attrs={
+                'class': 'browser-default custom-select form-control',
+            }
+        ),
+    )
+
+    department = forms.ModelChoiceField(
+        queryset=Program.objects.all(),
+        widget=forms.Select(attrs={'class': 'browser-default custom-select form-control'}),
+        label="Department",
+    )
+
+
+    class Meta:
+        model = Student
+        fields = ['department','level']
+
 
 
 class EmailValidationOnForgotPassword(PasswordResetForm):

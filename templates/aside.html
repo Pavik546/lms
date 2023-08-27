@@ -99,6 +99,9 @@
 
 			{% if request.user.is_lecturer %}
 			<li class="{% if request.path == ascore %}active{% endif %}">
+				<a href="{% url 'student1' %}"><i class="fas fa-user-graduate"></i>Students</a>
+			</li>
+			<li class="{% if request.path == ascore %}active{% endif %}">
 				<a href="{% url 'add_score' %}"><i class="fas fa-table"></i>Get Result Sheet</a>
 			</li>
 			{% endif %}

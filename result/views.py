@@ -48,6 +48,25 @@ def add_score(request):
     }
     return render(request, 'result/add_score.html', context)
 
+@login_required
+@lecturer_required
+def student1(request):
+    """ 
+    Shows a page where a lecturer will select a course allocated to him for score entry.
+    in a specific semester and session 
+
+    """
+    current_session = Session.objects.get(is_current_session=True)
+    current_semester = get_object_or_404(Semester, is_current_semester=True, session=current_session)
+    # semester = Course.objects.filter(allocated_course__lecturer__pk=request.user.id, semester=current_semester)
+    courses = Course.objects.filter(allocated_course__lecturer__pk=request.user.id).filter(semester=current_semester)
+    context = {
+        "current_session": current_session,
+        "current_semester": current_semester,
+        "courses": courses,
+    }
+    return render(request, 'result/student1.html', context)
+
 
 @login_required
 @lecturer_required
@@ -149,7 +168,34 @@ def add_score_for(request, id):
         return HttpResponseRedirect(reverse_lazy('add_score_for', kwargs={'id': id}))
     return HttpResponseRedirect(reverse_lazy('add_score_for', kwargs={'id': id}))
 # ########################################################
+def studentlist(request, id):
+    """
+    Shows a page where a lecturer will add score for students that are taking courses allocated to him
+    in a specific semester and session 
+    """
+    current_session = Session.objects.get(is_current_session=True)
+    current_semester = get_object_or_404(Semester, is_current_semester=True, session=current_session)
+    courses = Course.objects.filter(allocated_course__lecturer__pk=request.user.id).filter(
+            semester=current_semester)
+    course = Course.objects.get(pk=id)
+        # myclass = Class.objects.get(lecturer__pk=request.user.id)
+        # myclass = get_object_or_404(Class, lecturer__pk=request.user.id)
 
+        # students = TakenCourse.objects.filter(course__allocated_course__lecturer__pk=request.user.id).filter(
+        #     course__id=id).filter(student__allocated_student__lecturer__pk=request.user.id).filter(
+        #         course__semester=current_semester)
+    students = TakenCourse.objects.filter(course__allocated_course__lecturer__pk=request.user.id).filter(
+            course__id=id).filter(course__semester=current_semester)
+    context = {
+            "title": "Submit Score | DjangoSMS",
+            "courses": courses,
+            "course": course,
+            # "myclass": myclass,
+            "students": students,
+            "current_session": current_session,
+            "current_semester": current_semester,
+        }
+    return render(request, 'result/student.html', context)
 
 @login_required
 @student_required
@@ -418,7 +464,7 @@ def course_registration_form(request):
 
     # FIRST SEMESTER
     count = 0
-    header = [('S/No', 'Course Code', 'Course Title', 'Unit', Paragraph('Name, Siganture of course lecturer & Date', style['Normal']))]
+    header = [('S/No', 'Course Code', 'Course Title', 'Unit', Paragraph(' Siganture of lecturer', style['Normal']))]
     table_header = Table(header,1*[1.4*inch], 1*[0.5*inch])
     table_header.setStyle(
         TableStyle([
@@ -464,7 +510,7 @@ def course_registration_form(request):
     semester.fontName = "Helvetica"
     semester.fontSize = 8
     semester.leading = 18
-    semester_title = "<b>Total Second First Credit : " + str(first_semester_unit) + "</b>"
+    semester_title = "<b>Total First Semester Credit : " + str(first_semester_unit) + "</b>"
     semester_title = Paragraph(semester_title, semester)
     Story.append(semester_title)
 
@@ -482,7 +528,7 @@ def course_registration_form(request):
     Story.append(semester_title)
     # SECOND SEMESTER
     count = 0
-    header = [('S/No', 'Course Code', 'Course Title', 'Unit', Paragraph('<b>Name, Signature of course lecturer & Date</b>', style['Normal']))]
+    header = [('S/No', 'Course Code', 'Course Title', 'Unit', Paragraph('Signature of lecturer ', style['Normal']))]
     table_header = Table(header,1*[1.4*inch], 1*[0.5*inch])
     table_header.setStyle(
         TableStyle([
