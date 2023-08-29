@@ -37,6 +37,7 @@ class QuizManager(models.Manager):
                          Q(description__icontains=query)|
                          Q(category__icontains=query)|
                          Q(slug__icontains=query)
+                      
                         )
             qs = qs.filter(or_lookup).distinct() # distinct() is often necessary with Q lookups
         return qs
@@ -445,10 +446,4 @@ class Essay_Question(Question):
         verbose_name = _("Essay style question")
         verbose_name_plural = _("Essay style questions")
 
-#class dummy(models.Model):
-    #student=models.CharField(max_length=100)
-    #courset=models.CharField(max_length=100)
-    #coursep=models.CharField(max_length=100)
-    #quizc=models.CharField(max_length=100)
-    #quizt=models.CharField(max_length=100)
-    #total=models.CharField(max_length=100)
+

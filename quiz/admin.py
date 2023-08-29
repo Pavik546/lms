@@ -72,3 +72,4 @@ admin.site.register(MCQuestion, MCQuestionAdmin)
 admin.site.register(Progress, ProgressAdmin)
 admin.site.register(Essay_Question, EssayQuestionAdmin)
 admin.site.register(Sitting)
+
