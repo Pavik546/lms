@@ -6,11 +6,14 @@ from django.conf import settings
 from accounts.decorators import admin_required, lecturer_required
 from .forms import SessionForm, SemesterForm, NewsAndEventsForm
 from .models import *
+from quiz.models import Marks_Of_User
 
 
 # ########################################################
 # News & Events
 # ########################################################
+
+
 @login_required
 def home_view(request):
     items = NewsAndEvents.objects.all()
@@ -291,3 +294,4 @@ def semester_delete_view(request, pk):
 @login_required
 def dashboard_view(request):
     return render(request, 'app/dashboard.html')
+

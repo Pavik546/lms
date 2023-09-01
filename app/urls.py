@@ -24,6 +24,6 @@ urlpatterns = [
     path('semester/add/', semester_add_view, name="add_semester"),
     path('semester/<int:pk>/edit/', semester_update_view, name="edit_semester"),
     path('semester/<int:pk>/delete/', semester_delete_view, name="delete_semester"),
-
+  
     path('dashboard/', dashboard_view, name="dashboard"),
 ]

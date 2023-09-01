@@ -1,7 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 import razorpay
 from django.views.decorators.csrf import csrf_exempt
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from course.models import Program,Course
 from base.models import Payment,Ymd
@@ -36,4 +36,3 @@ def markview(request,str1,str2,pk,p,s,m):
     else:
         #return render(request, 'app/dashboard.html')
         return HttpResponse('You have already take this exam and only one sitting is permitted')
-

@@ -13,13 +13,15 @@ urlpatterns = [
     path('result/', include('result.urls')),
     path('search/', include('search.urls')),
     path('quiz/', include('quiz.urls')),
+  
     path('<int:pk>/<int:fee>/pay/', include('base.urls')),
     path('success/<int:pk>/', views.success, name='success'),
     path('markview/<str:str1>/<str:str2>/<int:pk>/<int:p>/<int:s>/<int:m>/',views.markview,name='markview'), 
 
+
    
 
-    path('accounts/api/', include('accounts.api.urls', namespace='accounts-api')),
+    path('quizzes/accounts/api/', include('accounts.api.urls', namespace='accounts-api')),
 
     path('admin/', admin.site.urls),
 ]

@@ -1,27 +1,26 @@
 from django.urls import path
-from .views import *
-from django.conf import settings
-from django.conf.urls.static import static
+from . import views
 
 urlpatterns = [
+    
+    path("<int:myid>/", views.quiz, name="quiz"), 
+    path('<int:myid>/data/', views.quiz_data_view, name='quiz-data'),
 
-    path('<slug>/quizzes/', quiz_list, name='quiz_index'),
+    path('<int:myid>/save/', views.save_quiz_view, name='quiz-save'),
+    path('', views.index, name='quiz_index'),
+    path('result_delete/<int:myid>/', views.result_delete, name='result_delete'),
+    path('delete_question/<int:myid>/', views.delete_question, name='delete_question'),  
 
-    path('progress/', view=QuizUserProgressView.as_view(), name='quiz_progress'),
+    
+    
+    
+    path('quiz/add_quiz/', views.add_quiz, name='add_quiz'),    
+    path('quiz/add_question/', views.add_question, name='add_question'),  
+    path('add_options/<int:myid>/', views.add_options, name='add_options'), 
+    path('quiz/results/', views.results, name='results'),    
 
-    # path('marking/<int:pk>/', view=QuizMarkingList.as_view(), name='quiz_marking'),
-    path('marking_list/', view=QuizMarkingList.as_view(), name='quiz_marking'),
+   
 
-    path('marking/<int:pk>/', view=QuizMarkingDetail.as_view(), name='quiz_marking_detail'),
 
-    path('<int:pk>/<slug>/take/', view=QuizTake.as_view(), name='quiz_take'),
-
-    path('<slug>/quiz_add/', QuizCreateView.as_view(), name='quiz_create'),
-    path('<slug>/<int:pk>/add/', QuizUpdateView.as_view(), name='quiz_update'),
-    path('deletequiz/<int:pk>/<slug>', quiz_delete, name='deletequiz'),
-    path('mc-question/add/<slug>/<int:quiz_id>/', MCQuestionCreate.as_view(), name='mc_create'),
-    # path('mc-question/add/<int:pk>/<quiz_pk>/', MCQuestionCreate.as_view(), name='mc_create'),
+       
 ]
-
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
